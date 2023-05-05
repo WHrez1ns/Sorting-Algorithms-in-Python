@@ -4,8 +4,6 @@ import matplotlib.pyplot
 
 with open("wordlists/probable-v2-top12000.txt", "r") as arquivo:
     lista = arquivo.read().splitlines()
-testes = ['1', '2', '3', '4', '5', '6', '7',
-          '8', '9', '10', '11', '12', '13', '14', '15']
 result = []
 cont = 0
 total = 0
@@ -32,6 +30,6 @@ matplotlib.pyplot.title(
     'Média do tempo de execução do Algoritmo de Quick Sort')
 matplotlib.pyplot.xlabel('Teste')
 matplotlib.pyplot.ylabel('Tempo (s)')
-matplotlib.pyplot.plot(testes, result)
+matplotlib.pyplot.plot(result)
 matplotlib.pyplot.ylim(0, 10)
 matplotlib.pyplot.show()
