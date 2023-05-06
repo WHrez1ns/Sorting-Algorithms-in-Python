@@ -73,7 +73,8 @@ def bubble_sort(lista):
     for i in range(n):
         for j in range(0, n-i-1):
             if lista[j] > lista[j+1]:
-                lista[j], lista[j+1] = lista[j+1], lista[j]
+                lista[j], lista[j+1] = lista[j+1],
+                lista[j]
     return lista
 ```
 
@@ -140,7 +141,188 @@ Além disso, durante cada iteração, o código imprime a lista ordenada, o temp
 
 Após as 15 iterações, o código calcula a média dos tempos de execução e imprime os resultados. Em seguida, o código usa a biblioteca <span style="color: #00a624;">**_matplotlib.pyplot_**</span> para criar um gráfico da média dos tempos de execução. O gráfico mostra o tempo de execução em segundos no eixo Y e o número do teste no eixo X. A biblioteca <span style="color: #00a624;">**_matplotlib.pyplot_**</span> é usada para configurar as propriedades do gráfico e exibi-lo na tela.
 
-### Gráfico da médio do tempo de execução
+### Gráfico da média do tempo de execução do algoritmo
+
+<img src="img/grafico_bubble_sort.png"><br>
+
+## Código do Quick Sort
+
+### Função Quick Sort - functions.py
+
+```
+def quick_sort(lista):
+    if len(lista) <= 1:
+        return lista
+    else:
+        pivo = lista[0]
+        menores = [x for x in lista[1:] if x < pivo]
+        maiores = [x for x in lista[1:] if x >= pivo]
+        return quick_sort(menores) + [pivo] +
+        quick_sort(maiores)
+```
+
+A função <span style="color: #00a624;">**_quick_sort</span>(<span style="color: orange;">lista</span>)_** implementa o algoritmo de ordenação rápida (Quick Sort) em Python. Esse algoritmo é conhecido por ser eficiente para grandes conjuntos de dados, tendo uma complexidade média de tempo de O(n log n).
+
+O algoritmo funciona dividindo repetidamente a lista em duas sub-listas menores: uma contendo elementos menores do que um elemento de referência (pivô) e outra contendo elementos maiores ou iguais ao pivô. Em seguida, ele ordena recursivamente essas duas sub-listas e as concatena em uma lista ordenada.
+
+O código começa verificando se a <span style="color: orange;">**_lista_**</span> de entrada lista contém apenas um elemento ou nenhum elemento, o que significa que já está ordenada. Se for esse o caso, a lista é simplesmente retornada. Caso contrário, a função seleciona o primeiro elemento da lista como pivô e cria duas sub-listas, <span style="color: #346888;">**_menores_**</span> e <span style="color: #346888;">**_maiores_**</span>, que contêm todos os elementos menores e maiores ou iguais ao pivô, respectivamente.
+
+Em seguida, a função chama recursivamente <span style="color: #00a624;">**_quick_sort_**</span> nas sub-listas <span style="color: #346888;">**_menores_**</span> e <span style="color: #346888;">**_maiores_**</span> e concatena o resultado da ordenação das sub-listas com o pivô no meio para formar a lista final ordenada.
+
+No geral, a função <span style="color: #00a624;">**_quick_sort</span>(<span style="color: orange;">lista</span>)_** é uma implementação eficiente do algoritmo de ordenação rápida em Python, que permite ordenar uma lista de elementos em tempo O(n log n).
+
+### Script Quick Sort - script.py
+
+```
+from functions import quick_sort
+import time
+import matplotlib.pyplot
+
+with open("wordlists/probable-v2-top12000.txt", "r") as arquivo:
+    lista = arquivo.read().splitlines()
+result = []
+cont = 0
+total = 0
+while cont < 15:
+    start_time = time.time()
+    ordenada = quick_sort(lista)
+    end_time = time.time()
+    total_time = end_time - start_time
+    result.append(float(total_time))
+    print("\033[30m--------------------------------------------------------")
+    print("\033[34m", ordenada)
+    print("\033[30m--------------------------------------------------------")
+    print("\033[32mTempo de execução: {:.5f} segundos".format(total_time))
+    print("\033[30m--------------------------------------------------------")
+    print("\033[36mTamanho da wordlist: {} palavras".format(len(lista)))
+    cont += 1
+media = sum(result) / len(result)
+print("\033[30m--------------------------------------------------------")
+print("\033[33mTestes realizados:", result)
+print("\033[30m--------------------------------------------------------")
+print("\033[35mMédia de tempo: {}".format(media))
+print("\033[30m--------------------------------------------------------")
+matplotlib.pyplot.title(
+    'Média do tempo de execução do Algoritmo de Quick Sort')
+matplotlib.pyplot.xlabel('Teste')
+matplotlib.pyplot.ylabel('Tempo (s)')
+matplotlib.pyplot.plot(result)
+matplotlib.pyplot.ylim(0, 10)
+matplotlib.pyplot.xlim(0, 10)
+matplotlib.pyplot.show()
+```
+
+O código começa importando a função **_quick_sort_** de um módulo chamado "functions", que provavelmente contém implementações de algoritmos de ordenação. Em seguida, ele importa os módulos **_time_** e **_matplotlib.pyplot_**.
+
+Depois disso, o código abre um arquivo chamado "probable-v2-top12000.txt" que contém uma lista de palavras, lê o conteúdo do arquivo e o divide em uma lista de palavras usando o método **_splitlines()_**. A lista resultante é atribuída à variável **_lista_**.
+
+Em seguida, o código inicia um loop **_while_** que executa 15 vezes. Dentro do loop, o código mede o tempo que leva para ordenar a lista usando a função quick_sort e armazena o tempo de execução em uma lista chamada **_result_**. O código também imprime a lista ordenada, o tempo de execução e o tamanho da lista.
+
+Após o loop terminar, o código calcula a média do tempo de execução dos testes realizados e imprime os resultados.
+
+Por fim, o código usa a biblioteca **_matplotlib.pyplot_** para gerar um gráfico da média do tempo de execução do algoritmo de ordenação rápida para os testes realizados. O gráfico mostra o tempo de execução em segundos no eixo Y e o número de testes no eixo X. O código define o título do gráfico, os rótulos dos eixos e os limites dos eixos. Em seguida, ele plota os resultados usando o método **_plot()_** e mostra o gráfico usando o método **_show()_**.
+
+### Gráfico da média do tempo de execução do algoritmo
+
+<img src="img/grafico_quick_sort.png"><br>
+
+## Código do Merge Sort (o algoritmo escolhido)
+
+### Função Quick Sort - functions.py
+
+```
+def merge_sort(lista):
+    if len(lista) <= 1:
+        return lista
+    meio = len(lista) // 2
+    esquerda = lista[:meio]
+    direita = lista[meio:]
+    esquerda = merge_sort(esquerda)
+    direita = merge_sort(direita)
+    return merge(esquerda, direita)
+
+
+def merge(esquerda, direita):
+    resultado = []
+    i, j = 0, 0
+    while i < len(esquerda) and j < len(direita):
+        if esquerda[i] < direita[j]:
+            resultado.append(esquerda[i])
+            i += 1
+        else:
+            resultado.append(direita[j])
+            j += 1
+    resultado += esquerda[i:]
+    resultado += direita[j:]
+    return resultado
+```
+
+Este é um código Python que implementa o algoritmo de ordenação merge sort. A função merge_sort recebe uma lista como entrada e retorna a lista ordenada. A primeira verificação na função é se a lista tem tamanho menor ou igual a 1, caso sim, a lista já está ordenada e é retornada.
+
+Caso contrário, a lista é dividida em duas partes iguais, esquerda e direita, utilizando o operador de fatiamento do Python. Em seguida, as funções merge_sort são chamadas recursivamente em cada metade da lista, e o resultado é armazenado nas variáveis esquerda e direita.
+
+Por fim, a função merge é chamada com as duas listas ordenadas e retorna uma única lista ordenada. A função merge cria uma lista vazia chamada resultado e duas variáveis para percorrer as listas esquerda e direita, respectivamente.
+
+Enquanto ainda houver elementos nas duas listas, a função compara o primeiro elemento de cada lista e adiciona o menor elemento à lista resultado. Quando uma das listas estiver completamente percorrida, a função adiciona todos os elementos restantes da outra lista à lista resultado.
+
+Ao final, a lista resultado é retornada como a lista ordenada completa.
+
+### Script Quick Sort - script.py
+
+```
+from functions import merge_sort
+import time
+import matplotlib.pyplot
+
+with open("wordlists/probable-v2-top12000.txt", "r") as arquivo:
+    lista = arquivo.read().splitlines()
+result = []
+cont = 0
+total = 0
+while cont < 15:
+    start_time = time.time()
+    ordenada = merge_sort(lista)
+    end_time = time.time()
+    total_time = end_time - start_time
+    result.append(float(total_time))
+    print("\033[30m--------------------------------------------------------")
+    print("\033[34m", ordenada)
+    print("\033[30m--------------------------------------------------------")
+    print("\033[32mTempo de execução: {:.5f} segundos".format(total_time))
+    print("\033[30m--------------------------------------------------------")
+    print("\033[36mTamanho da wordlist: {} palavras".format(len(lista)))
+    cont += 1
+media = sum(result) / len(result)
+print("\033[30m--------------------------------------------------------")
+print("\033[33mTestes realizados:", result)
+print("\033[30m--------------------------------------------------------")
+print("\033[35mMédia de tempo: {}".format(media))
+print("\033[30m--------------------------------------------------------")
+matplotlib.pyplot.title(
+    'Média do tempo de execução do Algoritmo de Merge Sort')
+matplotlib.pyplot.xlabel('Teste')
+matplotlib.pyplot.ylabel('Tempo (s)')
+matplotlib.pyplot.plot(result)
+matplotlib.pyplot.ylim(0, 10)
+matplotlib.pyplot.xlim(0, 10)
+matplotlib.pyplot.show()
+```
+
+Esse código em Python realiza testes de desempenho da função **_merge_sort_** (implementada em um arquivo **_functions.py_**) em uma lista de palavras obtida a partir de um arquivo **_probable-v2-top12000.txt_**.
+
+O código começa importando as bibliotecas necessárias: **_time_**, para medir o tempo de execução da função, e **_matplotlib.pyplot_** para gerar um gráfico dos resultados.
+
+Em seguida, a lista de palavras é carregada a partir do arquivo usando o método **_read().splitlines()_** para separar as palavras por linha. A variável **_result_** é inicializada como uma lista vazia para armazenar os resultados de tempo de execução.
+
+O código entra em um loop **_while_** que executa a ordenação com **_merge_sort_** na lista carregada do arquivo, calcula o tempo de execução e armazena o tempo na lista **_result_**. Esse loop é executado 15 vezes, para obter uma média mais precisa do tempo de execução.
+
+Em seguida, o código calcula a média dos tempos de execução a partir da lista **_result_**. O resultado é impresso no console, bem como o tempo médio de execução e um gráfico com os tempos de execução para cada teste.
+
+Finalmente, a biblioteca **_matplotlib.pyplot_** é usada para gerar um gráfico com os resultados dos testes, onde o eixo x representa os testes realizados e o eixo y representa o tempo de execução em segundos. O gráfico mostra a tendência do tempo de execução da função **_merge_sort_** à medida que o tamanho da lista aumenta. O **ylim** e o **xlim** definem o intervalo dos eixos.
+
+### Gráfico da média do tempo de execução do algoritmo
+
+<img src="img/grafico_merge_sort.png"><br>
 
 # Colaboradores
 
