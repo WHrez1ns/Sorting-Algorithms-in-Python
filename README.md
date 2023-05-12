@@ -23,10 +23,8 @@ O grupo deverá escolher 3 algoritmos de ordenação e testá-los, escolhendo o 
 
 - Editor Utilizado: <a href="https://code.visualstudio.com/"> Visual Studio Code</a>.
 
-- <a href="https://youtu.be/aHCxAWcjTp0">
+- Video Explicativo: <a href="https://youtu.be/aHCxAWcjTp0/"> link </a>.
 
-  Video Explicativo
-  </a>
 
 - <a href="https://"> Slides
   </a><br>
